@@ -1,6 +1,6 @@
 <?php
 // Configurações de conexão com o banco de dados
-$host = "localhost";
+$host = "localhost"; 
 $usuario = "root";
 $senha = "";
 $banco = "projetointegrador_maxfibra";
