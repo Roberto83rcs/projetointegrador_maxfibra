@@ -9,6 +9,12 @@
 <body>
     <h1>Bem-vindo ao Sistema da Max Fibra</h1>
     <p>Escolha uma opção:</p>
+    <h2>Gerenciamento de Planos</h2>
+<ul>
+    <li><a href="cadastrar_plano.php">Cadastrar Novo Plano</a></li>
+    <li><a href="listar_planos.php">Listar Planos Cadastrados</a></li>
+</ul>
+
     <ul>
     <li><a href="usuarios.php">Visualizar Usuários</a></li>
         <li><a href="alterar_cadastro.php">Alterar Cadastro</a></li>
