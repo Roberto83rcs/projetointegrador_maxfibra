@@ -1,15 +1,17 @@
 <?php
-// Configurações de conexão com o banco de dados
-$host = "localhost"; 
+// Configurações do banco de dados
+$host = "localhost";
 $usuario = "root";
 $senha = "";
 $banco = "projetointegrador_maxfibra";
 
-// Criar conexão
+// Cria conexão com o MySQL
 $conn = new mysqli($host, $usuario, $senha, $banco);
 
 // Verifica se houve erro na conexão
 if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+    exit;
 }
 ?>
+

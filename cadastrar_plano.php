@@ -5,23 +5,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Plano</title>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <h2>Cadastrar Novo Plano</h2>
-    <form action="processa_plano.php" method="POST">
-        <label>Nome do Plano:</label><br>
-        <input type="text" name="nome" required><br><br>
 
-        <label>Velocidade:</label><br>
-        <input type="text" name="velocidade" required><br><br>
+    <form action="processa_plano.php" method="POST" autocomplete="off">
+        <fieldset>
+            <legend>Informações do Plano</legend>
 
-        <label>Preço (R$):</label><br>
-        <input type="text" name="preco" required><br><br>
+            <label for="nome">Nome do Plano:</label><br>
+            <input type="text" id="nome" name="nome" required><br><br>
 
-        <label>Descrição:</label><br>
-        <textarea name="descricao"></textarea><br><br>
+            <label for="velocidade">Velocidade:</label><br>
+            <input type="text" id="velocidade" name="velocidade" required><br><br>
 
-        <input type="submit" value="Cadastrar Plano">
+            <label for="preco">Preço (R$):</label><br>
+            <input type="number" id="preco" name="preco" step="0.01" required><br><br>
+
+            <label for="descricao">Descrição:</label><br>
+            <textarea id="descricao" name="descricao" rows="4" cols="50"></textarea><br><br>
+
+            <input type="submit" value="Cadastrar Plano">
+        </fieldset>
     </form>
 </body>
 </html>

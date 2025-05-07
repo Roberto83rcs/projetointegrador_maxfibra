@@ -1,90 +1,86 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Corpo da página */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f4f8;
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #f9f9f9;
   color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
 }
 
-/* Cabeçalho com logo */
-.header {
-  background: #0056b3;
-  width: 100%;
-  padding: 20px 0;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+h2 {
+  color: #2c3e50;
 }
 
-.header .logo {
-  height: 50px;
-  margin-right: 15px;
-}
-
-.header h1 {
-  color: #fff;
-  font-size: 2.5rem;
-  font-weight: 700;
-}
-
-/* Seção de boas-vindas */
-.welcome {
-  margin: 30px 0;
-  font-size: 1.2rem;
-}
-
-.welcome strong {
-  color: #0056b3;
-}
-
-/* Menu principal */
-.menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 20px;
-  width: 80%;
-  max-width: 800px;
-}
-
-.menu-item {
-  background: #fff;
+form {
+  background-color: #fff;
   padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+input[type="submit"] {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #2980b9;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
   text-align: center;
+}
+
+th {
+  background-color: #2980b9;
+  color: white;
+}
+
+a {
+  color: #3498db;
   text-decoration: none;
-  color: #0056b3;
-  font-weight: 600;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  margin: 0 10px;
 }
 
-.menu-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+a:hover {
+  text-decoration: underline;
 }
 
-.logout {
-  background: #e63946;
-  color: #fff !important;
+.botao-voltar {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #2980b9;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
 }
 
-.logout:hover {
-  background: #d62828;
-}
-
-/* Responsivo */
-@media(max-width: 500px) {
-  .header h1 { font-size: 2rem; }
-  .menu { grid-template-columns: 1fr; }
+.botao-voltar:hover {
+  background-color: #1c5985;
 }

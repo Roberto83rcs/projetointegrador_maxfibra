@@ -1,4 +1,4 @@
-<?php
+<?php 
 include 'conexao.php'; 
 
 $usuario = null;
@@ -25,6 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
 <head>
     <meta charset="UTF-8">
     <title>Alterar Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 

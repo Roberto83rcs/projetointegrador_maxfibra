@@ -1,27 +1,30 @@
-<?php
+<<?php
 include("conexao.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $id = $_POST["fatura_id"];
-  $novo_status = $_POST["novo_status"];
+    $id = $_POST["fatura_id"];
+    $novo_status = $_POST["novo_status"];
 
-  $sql = "UPDATE faturas SET status = ? WHERE id = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("si", $novo_status, $id);
-  $stmt->execute();
+    // Validação básica
+    $validos = ["aberta", "paga", "vencida"];
+    if (!in_array($novo_status, $validos) || !is_numeric($id)) {
+        die("Parâmetros inválidos.");
+    }
 
-  // Define uma mensagem personalizada
-  if ($novo_status == 'paga') {
-    $mensagem = "paga";
-  } elseif ($novo_status == 'vencida') {
-    $mensagem = "atrasada";
-  } else {
-    $mensagem = "aberta";
-  }
+    $sql = "UPDATE faturas SET status = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("si", $novo_status, $id);
+    $stmt->execute();
 
-  // Redireciona com mensagem
-  header("Location: faturas.php?msg=$mensagem");
-  exit();
+    // Mensagem para redirecionamento
+    $mensagens = [
+        'paga' => 'paga',
+        'vencida' => 'atrasada',
+        'aberta' => 'aberta'
+    ];
+    $mensagem = $mensagens[$novo_status] ?? 'aberta';
+
+    header("Location: faturas.php?msg=" . urlencode($mensagem));
+    exit();
 }
 ?>
-

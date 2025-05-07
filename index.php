@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// Redireciona para login se não estiver autenticado
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
     exit();
@@ -10,10 +12,12 @@ if (!isset($_SESSION['usuario'])) {
 <head>
   <meta charset="UTF-8">
   <title>Painel do Funcionário – Max Fibra</title>
-  <link rel="stylesheet" href="css/style.css">
-  
+  <link rel="stylesheet" href="style.css">
+
+
 </head>
 <body>
+
   <header class="header">
     <img src="assets/logo.png" alt="Max Fibra Logo" class="logo">
     <h1>Max Fibra</h1>
@@ -31,5 +35,7 @@ if (!isset($_SESSION['usuario'])) {
     <a href="alterar_cadastro.php" class="menu-item">Alterar Cadastro</a>
     <a href="logout.php" class="menu-item logout">Sair</a>
   </nav>
+
 </body>
 </html>
+

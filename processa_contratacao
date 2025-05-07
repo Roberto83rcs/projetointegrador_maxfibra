@@ -1,17 +1,27 @@
 <?php
 include 'conexao.php';
 
-$usuario_id = $_POST['usuario_id'];
-$plano_id = $_POST['plano_id'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Sanitiza os dados
+    $usuario_id = intval($_POST['usuario_id']);
+    $plano_id = intval($_POST['plano_id']);
 
-// Atualiza o plano do usuário
-$sql = "UPDATE usuarios SET plano_id = '$plano_id' WHERE id = '$usuario_id'";
+    // Atualiza o plano do usuário com segurança
+    $stmt = $conn->prepare("UPDATE usuarios SET plano_id = ? WHERE id = ?");
+    $stmt->bind_param("ii", $plano_id, $usuario_id);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Plano contratado com sucesso!";
+    if ($stmt->execute()) {
+        echo "<h2>Plano contratado com sucesso!</h2>";
+        echo '<a href="index.php">⮜ Voltar ao Menu</a>';
+    } else {
+        echo "<p style='color: red;'>Erro ao contratar plano: " . htmlspecialchars($stmt->error) . "</p>";
+        echo '<a href="index.php">⮜ Voltar ao Menu</a>';
+    }
+
+    $stmt->close();
+    $conn->close();
 } else {
-    echo "Erro ao contratar plano: " . $conn->error;
+    echo "<p>Acesso inválido.</p>";
+    echo '<a href="index.php">⮜ Voltar ao Menu</a>';
 }
-
-$conn->close();
 ?>

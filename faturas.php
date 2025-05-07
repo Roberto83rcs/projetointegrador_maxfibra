@@ -12,25 +12,28 @@ $resultado = $conn->query($sql);
   <meta charset="UTF-8">
   <title>Faturas</title>
   <link rel="stylesheet" href="style.css">
-</head>
+  </head>
 <body>
   <div class="container">
     <h1>Faturas</h1>
 
-    <?php if (isset($_GET['msg'])): ?>
-  <div class="mensagem">
     <?php
-      if ($_GET['msg'] == 'paga') {
-        echo "<p class='sucesso'>✅ Fatura paga com sucesso!</p>";
-      } elseif ($_GET['msg'] == 'atrasada') {
-        echo "<p class='erro'>⚠️ Fatura em atraso — regularize para evitar suspensão!</p>";
-      } elseif ($_GET['msg'] == 'aberta') {
-        echo "<p class='info'>🕒 Fatura está em aberto. Fique atento ao vencimento.</p>";
+    if (isset($_GET['msg'])) {
+      echo '<div class="mensagem">';
+      switch ($_GET['msg']) {
+        case 'paga':
+          echo "<p class='sucesso'>✅ Fatura paga com sucesso!</p>";
+          break;
+        case 'vencida':
+          echo "<p class='erro'>⚠️ Fatura em atraso — regularize para evitar suspensão!</p>";
+          break;
+        case 'em_aberto':
+          echo "<p class='info'>🕒 Fatura está em aberto. Fique atento ao vencimento.</p>";
+          break;
       }
+      echo '</div>';
+    }
     ?>
-  </div>
-<?php endif; ?>
-
 
     <table>
       <tr>
@@ -42,11 +45,11 @@ $resultado = $conn->query($sql);
       </tr>
 
       <?php while ($linha = $resultado->fetch_assoc()): ?>
-        <tr>
-          <form method="POST" action="atualizar_status.php">
+        <form method="POST" action="atualizar_status.php">
+          <tr>
             <td><?php echo $linha['id']; ?></td>
             <td>R$ <?php echo number_format($linha['valor'], 2, ',', '.'); ?></td>
-            <td><?php echo date('d/m/Y', strtotime($linha['data_emissao'])); ?></td>
+            <td><?php echo date('d/m/Y', strtotime($linha['data_emissao'])); ?></td> <!-- Troque por 'data_vencimento' se houver -->
             <td>
               <select name="novo_status">
                 <option value="paga" <?= $linha['status'] == 'paga' ? 'selected' : '' ?>>Pago</option>
@@ -56,14 +59,16 @@ $resultado = $conn->query($sql);
               <input type="hidden" name="fatura_id" value="<?= $linha['id'] ?>">
             </td>
             <td><button type="submit">Atualizar</button></td>
-          </form>
-        </tr>
+          </tr>
+        </form>
       <?php endwhile; ?>
     </table>
-  </div>
-  <div style="text-align: center; margin-top: 20px;">
-    <a href="index.php" class="botao-voltar">⮜ Voltar ao Menu</a>
-</div>
 
+    <div style="text-align: center;">
+      <a href="index.php" class="botao-voltar">⮜ Voltar ao Menu</a>
+    </div>
+  </div>
 </body>
 </html>
+
+              
