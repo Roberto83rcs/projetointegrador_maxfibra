@@ -52,6 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buscar'])) {
         <label>Telefone:</label><br>
         <input type="text" name="telefone" value="<?= $usuario['telefone'] ?>"><br><br>
 
+        <label>Endereço:</label><br>
+        <input type="text" name="endereco" value="<?= $usuario['endereco'] ?>"><br><br>
+
         <input type="submit" value="Salvar Alterações">
     </form>
 <?php endif; ?>
