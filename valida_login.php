@@ -1,41 +1,35 @@
 <?php
 session_start();
-include 'conexao.php';
+include("conexao.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST['usuario'];
-    $senha = $_POST['senha'];
+$usuario = $_POST['usuario'] ?? '';
+$senha = $_POST['senha'] ?? '';
 
-    $sql = "SELECT id, usuario, senha FROM funcionarios WHERE usuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $usuario);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+// Buscar o usuário ativo
+$sql = "SELECT * FROM usuarios WHERE email = ? AND ativo = 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $usuario);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    if ($resultado->num_rows === 1) {
-        $dados = $resultado->fetch_assoc();
+if ($result->num_rows === 1) {
+    $dados = $result->fetch_assoc();
 
-        if (password_verify($senha, $dados['senha'])) {
-            $_SESSION['usuario'] = $dados['usuario'];
-            $_SESSION['funcionario_id'] = $dados['id'];
+    if (password_verify($senha, $dados['senha'])) {
+        $_SESSION['usuario_id'] = $dados['id'];
+        $_SESSION['email'] = $dados['email'];
 
-            // Se for a senha padrão, redireciona para troca
-            if ($senha === '1234') {
-                header("Location: troca_senha.php");
-                exit;
-            }
-
-            header("Location: index.php");
+        // Se a senha for "1234", força troca
+        if ($senha === "1234") {
+            header("Location: trocar_senha.php");
             exit;
-        } else {
-            echo "❌ Senha incorreta.";
         }
-    } else {
-        echo "❌ Funcionário não encontrado.";
-    }
 
-    $stmt->close();
-} else {
-    echo "Requisição inválida.";
+        header("Location: painel.php");
+        exit;
+    }
 }
-?>
+
+// Redireciona com erro
+header("Location: login.php?erro=Email ou senha inválidos!");
+exit;

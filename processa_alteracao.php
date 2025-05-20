@@ -1,35 +1,33 @@
 <?php
 include 'conexao.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Sanitiza os dados recebidos
-    $id = intval($_POST["id"]);
-    $nome = trim($_POST["nome"]);
-    $email = trim($_POST["email"]);
-    $telefone = trim($_POST["telefone"]);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST['id'];
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $telefone = $_POST['telefone'];
+    $endereco = $_POST['endereco'];
 
-    // Prepara a atualização
-    $stmt = $conn->prepare("UPDATE usuarios SET nome = ?, email = ?, telefone = ? WHERE id = ?");
-    $stmt->bind_param("sssi", $nome, $email, $telefone, $id);
+    // Verifica se o usuário está ativo
+    $verifica = $conn->prepare("SELECT * FROM usuarios WHERE id = ? AND ativo = 1");
+    $verifica->bind_param("i", $id);
+    $verifica->execute();
+    $resultado = $verifica->get_result();
 
-    // Executa e mostra resultado
-    if ($stmt->execute()) {
-        echo "<h2>Cadastro atualizado com sucesso!</h2>";
-        echo "<p><strong>Nome:</strong> " . htmlspecialchars($nome) . "</p>";
-        echo "<p><strong>Email:</strong> " . htmlspecialchars($email) . "</p>";
-        echo "<p><strong>Telefone:</strong> " . htmlspecialchars($telefone) . "</p>";
-        echo '<a href="alterar_cadastro.php">Alterar outro cadastro</a><br>';
-        echo '<a href="index.php">⮜ Voltar ao Menu</a>';
-    } else {
-        echo "<p style='color: red;'>Erro ao atualizar cadastro: " . htmlspecialchars($stmt->error) . "</p>";
-        echo '<a href="alterar_cadastro.php">Tentar novamente</a>';
+    if ($resultado->num_rows == 0) {
+        echo "Usuário não encontrado ou inativo.";
+        exit;
     }
 
-    $stmt->close();
-    $conn->close();
+    $stmt = $conn->prepare("UPDATE usuarios SET nome = ?, email = ?, telefone = ?, endereco = ? WHERE id = ?");
+    $stmt->bind_param("ssssi", $nome, $email, $telefone, $endereco, $id);
 
-} else {
-    echo "<p>Acesso inválido.</p>";
-    echo '<a href="index.php">⮜ Voltar ao Menu</a>';
+    if ($stmt->execute()) {
+        echo "Cadastro atualizado com sucesso!";
+    } else {
+        echo "Erro ao atualizar o cadastro.";
+    }
+
+    echo "<br><a href='alterar_cadastro.php'>Voltar</a>";
 }
 ?>

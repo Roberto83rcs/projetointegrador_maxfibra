@@ -1,30 +1,35 @@
+<?php
+session_start();
+include 'conexao.php';
+
+$id = $_SESSION['usuario_id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $mensagem = $_POST['mensagem'];
+
+    $sql = "INSERT INTO suporte (usuario_id, nome, email, mensagem) VALUES ($id, '$nome', '$email', '$mensagem')";
+    $conn->query($sql);
+    echo "<script>alert('Solicitação enviada com sucesso.'); location.href='dashboard.php';</script>";
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Solicitar Suporte - Max Fibra</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Suporte</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <h2>Solicitação de Suporte</h2>
-
-    <form action="processa_suporte.php" method="POST" style="max-width: 500px; margin: auto;">
-        <label for="nome">Nome:</label><br>
-        <input type="text" id="nome" name="nome" required><br><br>
-
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-
-        <label for="descricao">Descrição do Problema:</label><br>
-        <textarea id="descricao" name="descricao" rows="5" required></textarea><br><br>
-
-        <input type="submit" value="Enviar">
+<div class="container">
+    <h2>Solicitar Suporte</h2>
+    <form method="post">
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <input type="email" name="email" placeholder="Seu email" required>
+        <textarea name="mensagem" placeholder="Descreva o problema..." required></textarea>
+        <button type="submit">Enviar</button>
     </form>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="index.php" class="botao-voltar">⮜ Voltar ao Menu</a>
-    </div>
-
+    <a href="dashboard.php">Voltar</a>
+</div>
 </body>
 </html>

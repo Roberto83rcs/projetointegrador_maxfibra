@@ -11,7 +11,9 @@ $conn = new mysqli($host, $usuario, $senha, $banco);
 // Verifica se houve erro na conexão
 if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-    exit;
 }
+
+// Define charset UTF-8
+$conn->set_charset("utf8");
 ?>
 

@@ -1,45 +1,31 @@
 <?php
 include 'conexao.php';
 
-$sql = "SELECT id, nome, email FROM usuarios"; 
-$result = $conn->query($sql);
+$resultado = $conn->query("SELECT * FROM usuarios WHERE ativo = 1");
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Usuários Cadastrados - Max Fibra</title>
+    <title>Lista de Usuários</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h2>Lista de Usuários</h2>
-
-    <table border="1" style="margin: auto;">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $result->fetch_assoc()): ?>
-            <tr>
-                <td><?= htmlspecialchars($row["id"]) ?></td>
-                <td><?= htmlspecialchars($row["nome"]) ?></td>
-                <td><?= htmlspecialchars($row["email"]) ?></td>
-            </tr>
-            <?php endwhile; ?>
-        </tbody>
+    <h2>Usuários Ativos</h2>
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Endereço</th>
+        </tr>
+        <?php while($usuario = $resultado->fetch_assoc()): ?>
+        <tr>
+            <td><?= $usuario['id'] ?></td>
+            <td><?= $usuario['nome'] ?></td>
+            <td><?= $usuario['email'] ?></td>
+            <td><?= $usuario['telefone'] ?></td>
+            <td><?= $usuario['endereco'] ?></td>
+        </tr>
+        <?php endwhile; ?>
     </table>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="index.php" class="botao-voltar">⮜ Voltar ao Menu</a>
-    </div>
-
 </body>
 </html>
-
-<?php $conn->close(); ?>

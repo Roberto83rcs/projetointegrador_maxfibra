@@ -1,28 +1,40 @@
-<?php include 'conexao.php'; ?>
+<?php
+session_start();
+include 'conexao.php';
 
+$id = $_SESSION['usuario_id'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $plano_id = $_POST['plano_id'];
+    $obs = $_POST['observacao'];
+    $sql = "INSERT INTO contratacoes (usuario_id, plano_id, observacao) VALUES ($id, $plano_id, '$obs')";
+    $conn->query($sql);
+    echo "<script>alert('Plano contratado com sucesso.'); location.href='dashboard.php';</script>";
+}
+
+$planos = $conn->query("SELECT * FROM planos");
+?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Contratação de Plano</title>
-  <link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <title>Contratar Plano</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<h2>Contratar um Plano</h2>
-
-<form action="processa_contratacao.php" method="post">
-  <label for="usuario_id">ID do Usuário:</label><br>
-  <input type="number" id="usuario_id" name="usuario_id" required min="1"><br><br>
-
-  <label for="plano_id">ID do Plano:</label><br>
-  <input type="number" id="plano_id" name="plano_id" required min="1"><br><br>
-
-  <input type="submit" value="Contratar">
-</form>
-
+<div class="container">
+    <h2>Contratar Novo Plano</h2>
+    <form method="post">
+        <select name="plano_id" required>
+            <option value="">Selecione um plano</option>
+            <?php while($p = $planos->fetch_assoc()): ?>
+                <option value="<?= $p['id'] ?>"><?= $p['nome'] ?> - <?= $p['velocidade'] ?> - R$ <?= $p['preco'] ?></option>
+            <?php endwhile; ?>
+        </select>
+        <textarea name="observacao" placeholder="Observações (opcional)"></textarea>
+        <button type="submit">Contratar</button>
+    </form>
+    <a href="dashboard.php">Voltar</a>
+</div>
 </body>
 </html>
-
-

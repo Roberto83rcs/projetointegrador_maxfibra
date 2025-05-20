@@ -1,41 +1,40 @@
 <?php
 session_start();
+include 'conexao.php';
 
-// Redireciona para login se não estiver autenticado
-if (!isset($_SESSION['usuario'])) {
-    header("Location: login.php");
-    exit();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+
+    $sql = "SELECT * FROM usuarios WHERE email = '$email' AND senha = '$senha'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows == 1) {
+        $usuario = $result->fetch_assoc();
+        $_SESSION['usuario_id'] = $usuario['id'];
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        $erro = "Email ou senha inválidos!";
+    }
 }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Painel do Funcionário – Max Fibra</title>
-  <link rel="stylesheet" href="style.css">
-
-
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <header class="header">
-    <img src="assets/logo.png" alt="Max Fibra Logo" class="logo">
-    <h1>Max Fibra</h1>
-  </header>
-
-  <section class="welcome">
-    <p>Bem‑vindo, <strong><?= htmlspecialchars($_SESSION['usuario']) ?></strong>!</p>
-  </section>
-
-  <nav class="menu">
-    <a href="usuarios.php" class="menu-item">Usuários</a>
-    <a href="faturas.php" class="menu-item">Faturas</a>
-    <a href="planos.php" class="menu-item">Planos</a>
-    <a href="suporte.php" class="menu-item">Suporte</a>
-    <a href="alterar_cadastro.php" class="menu-item">Alterar Cadastro</a>
-    <a href="logout.php" class="menu-item logout">Sair</a>
-  </nav>
-
+    <div class="container">
+        <h2>Login - Max Fibra</h2>
+        <form method="post">
+            <input type="email" name="email" placeholder="Email" required><br>
+            <input type="password" name="senha" placeholder="Senha" required><br>
+            <button type="submit">Entrar</button>
+            <?php if (isset($erro)) echo "<p class='erro'>$erro</p>"; ?>
+        </form>
+    </div>
 </body>
 </html>
-
